@@ -107,16 +107,7 @@ function depositRequest(){
     alert("Deposit request submitted. Admin will verify.")
     document.getElementById("depositAmount").value=""
     document.getElementById("depositTxn").value=""
-    console.log("Pending Deposits:", pendingDeposits)
-}
-
-// Admin verifies deposit
-function verifyDeposit(index){
-    let deposit = pendingDeposits[index]
-    balance += deposit.amount
-    updateBalance()
-    pendingDeposits.splice(index,1)
-    alert("Deposit verified! New balance: "+balance)
+    refreshAdminDashboard()
 }
 
 // --------- Withdraw ---------
@@ -130,21 +121,51 @@ function withdrawRequest(){
     alert("Withdraw request submitted. Admin will process payment.")
     document.getElementById("withdrawAmount").value=""
     document.getElementById("withdrawAccount").value=""
-    console.log("Pending Withdraws:", pendingWithdraws)
+    refreshAdminDashboard()
 }
 
-// Admin approves withdraw
+// --------- Admin Dashboard Functions ---------
+function refreshAdminDashboard(){
+    let depList = document.getElementById("adminDeposits")
+    depList.innerHTML = ""
+    pendingDeposits.forEach((d,i)=>{
+        let li = document.createElement("li")
+        li.innerHTML = `Amount: ${d.amount} | TxnID: ${d.txnId} 
+        <button onclick="verifyDeposit(${i})">Verify</button>`
+        depList.appendChild(li)
+    })
+
+    let wdList = document.getElementById("adminWithdraws")
+    wdList.innerHTML = ""
+    pendingWithdraws.forEach((w,i)=>{
+        let li = document.createElement("li")
+        li.innerHTML = `Amount: ${w.amount} | Account: ${w.account} 
+        <button onclick="approveWithdraw(${i})">Approve</button>`
+        wdList.appendChild(li)
+    })
+}
+
+function verifyDeposit(index){
+    let deposit = pendingDeposits[index]
+    balance += deposit.amount
+    updateBalance()
+    pendingDeposits.splice(index,1)
+    alert("Deposit verified! New balance: "+balance)
+    refreshAdminDashboard()
+}
+
 function approveWithdraw(index){
     let wd = pendingWithdraws[index]
     balance -= wd.amount
     updateBalance()
     pendingWithdraws.splice(index,1)
-    alert("Withdraw processed. New balance: "+balance)
+    alert("Withdraw processed! New balance: "+balance)
+    refreshAdminDashboard()
 }
 
 // --------- Button Events ---------
 document.getElementById("startBtn").onclick = startGame
 document.getElementById("cashoutBtn").onclick = cashout
 
+refreshAdminDashboard()
 updateBalance()
-})

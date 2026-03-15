@@ -1,11 +1,32 @@
-﻿let balance = 1000
+let player = localStorage.getItem("player")
+
+function login(){
+
+let name = document.getElementById("playerName").value
+
+if(name==""){
+alert("Enter name")
+return
+}
+
+localStorage.setItem("player",name)
+
+location.reload()
+
+}
+
+if(player){
+document.getElementById("loginBox").style.display="none"
+}
+let balance = localStorage.getItem("balance") || 1000
+
 let multiplier = 1
 let crashPoint = 0
 let running = false
 let timer
 let betAmount = 0
 
-function updateBalance(){
+function updateBalance()localStorage.setItem("balance",balance){
 document.getElementById("balance").innerHTML = "Balance: "+balance
 }
 

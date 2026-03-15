@@ -31,6 +31,7 @@ document.getElementById("balance").innerHTML = "Balance: "+balance
 }
 
 function startGame(){
+  x=0
 if(running) return
 
 betAmount = parseFloat(document.getElementById("bet").value)
@@ -87,11 +88,13 @@ document.getElementById("historyList").prepend(li)
 
 updateBalance()
 let canvas = document.getElementById("graph")
-let ctx = canvas.getContext("2d")
+let ctx = canvas ? canvas.getContext("2d") : null
 
 let x = 0
 
 function drawGraph(){
+
+if(!ctx) return
 
 ctx.clearRect(0,0,400,200)
 
@@ -108,3 +111,4 @@ ctx.stroke()
 x += 5
 
 }
+

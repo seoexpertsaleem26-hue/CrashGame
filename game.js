@@ -1,121 +1,121 @@
-let balance = localStorage.getItem("balance") || 1000
-let multiplier = 1
-let crashPoint = 0
-let running = false
-let timer
-let betAmount = 0
+document.addEventListener("DOMContentLoaded", function(){
 
-// Canvas
-let canvas = document.getElementById("graph")
-let ctx = canvas.getContext("2d")
-let x = 0
+  // Variables
+  let balance = localStorage.getItem("balance") || 1000
+  let multiplier = 1
+  let crashPoint = 0
+  let running = false
+  let timer
+  let betAmount = 0
 
-// Plane
-let plane = document.getElementById("plane")
-let planeX = 50
-let planeY = 220
+  // Plane
+  let plane = document.getElementById("plane")
+  let planeX = 50
+  let planeY = 220
 
-// Sounds
-let cashSound = document.getElementById("cashSound")
-let crashSound = document.getElementById("crashSound")
+  // Sounds
+  let cashSound = document.getElementById("cashSound")
+  let crashSound = document.getElementById("crashSound")
 
-function updateBalance(){
-    document.getElementById("balance").innerText = "Balance: " + balance
-    localStorage.setItem("balance", balance)
-}
+  // Canvas
+  let canvas = document.getElementById("graph")
+  let ctx = canvas.getContext("2d")
+  let x = 0
 
-function startGame(){
-    if(running) return
+  function updateBalance(){
+      document.getElementById("balance").innerText = "Balance: " + balance
+      localStorage.setItem("balance", balance)
+  }
 
-    betAmount = parseFloat(document.getElementById("bet").value)
-    if(!betAmount || betAmount <=0){
-        alert("Enter bet amount")
-        return
-    }
+  function startGame(){
+      if(running) return
 
-    if(betAmount>balance){
-        alert("Not enough balance")
-        return
-    }
+      betAmount = parseFloat(document.getElementById("bet").value)
+      if(!betAmount || betAmount <=0){
+          alert("Enter bet amount")
+          return
+      }
 
-    balance -= betAmount
-    updateBalance()
+      if(betAmount>balance){
+          alert("Not enough balance")
+          return
+      }
 
-    multiplier = 1
-    running = true
-    x = 0
+      balance -= betAmount
+      updateBalance()
 
-    planeX = 50
-    planeY = 220
-    plane.style.left = planeX + "px"
-    plane.style.top = planeY + "px"
+      multiplier = 1
+      running = true
+      x = 0
 
-    crashPoint = Math.random()*5+1
-    document.getElementById("result").innerHTML = ""
+      planeX = 50
+      planeY = 220
+      plane.style.left = planeX + "px"
+      plane.style.top = planeY + "px"
 
-    timer = setInterval(()=>{
-        multiplier += 0.02
+      crashPoint = Math.random()*5+1
+      document.getElementById("result").innerHTML = ""
 
-        // Update multiplier text
-        document.getElementById("multiplier").innerHTML = multiplier.toFixed(2) + "x"
+      timer = setInterval(()=>{
+          multiplier += 0.02
 
-        drawGraph()
+          document.getElementById("multiplier").innerHTML = multiplier.toFixed(2) + "x"
 
-        if(multiplier >= crashPoint){
-            clearInterval(timer)
-            running = false
-            document.getElementById("result").innerHTML = "💥 Crashed at " + multiplier.toFixed(2) + "x"
-            addHistory("Crash "+multiplier.toFixed(2)+"x")
-            crashSound.play()
-        }
-    },50)
-}
+          drawGraph()
 
-function cashout(){
-    if(!running) return
+          if(multiplier >= crashPoint){
+              clearInterval(timer)
+              running = false
+              document.getElementById("result").innerHTML = "💥 Crashed at " + multiplier.toFixed(2) + "x"
+              addHistory("Crash "+multiplier.toFixed(2)+"x")
+              crashSound.play()
+          }
 
-    clearInterval(timer)
-    running = false
+      },50)
+  }
 
-    let win = betAmount*multiplier
-    balance += win
-    updateBalance()
+  function cashout(){
+      if(!running) return
 
-    document.getElementById("result").innerHTML = "✅ Won "+win.toFixed(2)
-    addHistory("Win "+multiplier.toFixed(2)+"x")
-    cashSound.play()
-}
+      clearInterval(timer)
+      running = false
 
-function drawGraph(){
-    // Clear canvas
-    ctx.clearRect(0,0,canvas.width,canvas.height)
+      let win = betAmount*multiplier
+      balance += win
+      updateBalance()
 
-    // Smooth curve using quadratic curve
-    ctx.beginPath()
-    ctx.moveTo(0,200)
-    ctx.quadraticCurveTo(x/2,200-(multiplier*10),x,200-(multiplier*20))
-    ctx.strokeStyle = "lime"
-    ctx.lineWidth = 2
-    ctx.stroke()
+      document.getElementById("result").innerHTML = "✅ Won "+win.toFixed(2)
+      addHistory("Win "+multiplier.toFixed(2)+"x")
+      cashSound.play()
+  }
 
-    x += 4
+  function drawGraph(){
+      ctx.clearRect(0,0,canvas.width,canvas.height)
+      ctx.beginPath()
+      ctx.moveTo(0,200)
+      ctx.quadraticCurveTo(x/2,200-(multiplier*10),x,200-(multiplier*20))
+      ctx.strokeStyle = "lime"
+      ctx.lineWidth = 2
+      ctx.stroke()
 
-    // Plane movement
-    planeX += 4
-    planeY -= 0.5
-    plane.style.left = planeX + "px"
-    plane.style.top = planeY + "px"
-}
+      x += 4
 
-function addHistory(text){
-    let li = document.createElement("li")
-    li.innerText = text
-    document.getElementById("historyList").prepend(li)
-}
+      // Plane movement
+      planeX += 4
+      planeY -= 0.5
+      plane.style.left = planeX + "px"
+      plane.style.top = planeY + "px"
+  }
 
-// Buttons
-document.getElementById("startBtn").onclick = startGame
-document.getElementById("cashoutBtn").onclick = cashout
+  function addHistory(text){
+      let li = document.createElement("li")
+      li.innerText = text
+      document.getElementById("historyList").prepend(li)
+  }
 
-updateBalance()
- 
+  // Button events
+  document.getElementById("startBtn").onclick = startGame
+  document.getElementById("cashoutBtn").onclick = cashout
+
+  updateBalance()
+})

@@ -18,7 +18,6 @@ let canvas = document.getElementById("graph")
 let ctx = canvas.getContext("2d")
 let x = 0
 
-// Pending requests
 let pendingDeposits = []
 let pendingWithdraws = []
 
@@ -27,24 +26,19 @@ function updateBalance(){
     localStorage.setItem("balance", balance)
 }
 
-// --------- Game Functions ---------
+// ---------- Game ----------
 function startGame(){
     if(running) return
-
     betAmount = parseFloat(document.getElementById("bet").value)
     if(!betAmount || betAmount <=0){alert("Enter bet amount"); return}
     if(betAmount>balance){alert("Not enough balance"); return}
-
     balance -= betAmount
     updateBalance()
 
     multiplier = 1
     running = true
-    x = 0
-    planeX = 50
-    planeY = 220
-    plane.style.left = planeX + "px"
-    plane.style.top = planeY + "px"
+    x=0; planeX=50; planeY=220
+    plane.style.left = planeX+"px"; plane.style.top = planeY+"px"
 
     crashPoint = Math.random()*5+1
     document.getElementById("result").innerHTML = ""
@@ -53,8 +47,7 @@ function startGame(){
         multiplier += 0.02
         document.getElementById("multiplier").innerHTML = multiplier.toFixed(2)+"x"
         drawGraph()
-
-        if(multiplier >= crashPoint){
+        if(multiplier>=crashPoint){
             clearInterval(timer)
             running = false
             document.getElementById("result").innerHTML = "💥 Crashed at "+multiplier.toFixed(2)+"x"
@@ -81,14 +74,9 @@ function drawGraph(){
     ctx.beginPath()
     ctx.moveTo(0,200)
     ctx.quadraticCurveTo(x/2,200-(multiplier*10),x,200-(multiplier*20))
-    ctx.strokeStyle = "lime"
-    ctx.lineWidth = 2
-    ctx.stroke()
-    x += 4
-    planeX += 4
-    planeY -= 0.5
-    plane.style.left = planeX + "px"
-    plane.style.top = planeY + "px"
+    ctx.strokeStyle="lime"; ctx.lineWidth=2; ctx.stroke()
+    x+=4; planeX+=4; planeY-=0.5
+    plane.style.left=planeX+"px"; plane.style.top=planeY+"px"
 }
 
 function addHistory(text){
@@ -97,41 +85,37 @@ function addHistory(text){
     document.getElementById("historyList").prepend(li)
 }
 
-// --------- Deposit ---------
+// ---------- Deposit/Withdraw ----------
 function depositRequest(){
     let amt = parseFloat(document.getElementById("depositAmount").value)
     let txn = document.getElementById("depositTxn").value.trim()
-    if(!amt || amt <=0){alert("Enter valid amount"); return}
+    if(!amt || amt<=0){alert("Enter valid amount"); return}
     if(!txn){alert("Enter Transaction ID"); return}
     pendingDeposits.push({amount: amt, txnId: txn})
     alert("Deposit request submitted. Admin will verify.")
-    document.getElementById("depositAmount").value=""
-    document.getElementById("depositTxn").value=""
+    document.getElementById("depositAmount").value=""; document.getElementById("depositTxn").value=""
     refreshAdminDashboard()
 }
 
-// --------- Withdraw ---------
 function withdrawRequest(){
     let amt = parseFloat(document.getElementById("withdrawAmount").value)
     let account = document.getElementById("withdrawAccount").value.trim()
-    if(!amt || amt <=0){alert("Enter valid amount"); return}
+    if(!amt || amt<=0){alert("Enter valid amount"); return}
     if(amt>balance){alert("Insufficient balance"); return}
-    if(!account){alert("Enter your JazzCash/EasyPaisa number"); return}
+    if(!account){alert("Enter JazzCash/EasyPaisa number"); return}
     pendingWithdraws.push({amount: amt, account: account})
-    alert("Withdraw request submitted. Admin will process payment.")
-    document.getElementById("withdrawAmount").value=""
-    document.getElementById("withdrawAccount").value=""
+    alert("Withdraw request submitted. Admin will approve.")
+    document.getElementById("withdrawAmount").value=""; document.getElementById("withdrawAccount").value=""
     refreshAdminDashboard()
 }
 
-// --------- Admin Dashboard Functions ---------
+// ---------- Admin ----------
 function refreshAdminDashboard(){
     let depList = document.getElementById("adminDeposits")
     depList.innerHTML = ""
     pendingDeposits.forEach((d,i)=>{
         let li = document.createElement("li")
-        li.innerHTML = `Amount: ${d.amount} | TxnID: ${d.txnId} 
-        <button onclick="verifyDeposit(${i})">Verify</button>`
+        li.innerHTML=`Amount: ${d.amount} | TxnID: ${d.txnId} <button class="verify" onclick="verifyDeposit(${i})">Verify</button>`
         depList.appendChild(li)
     })
 
@@ -139,8 +123,7 @@ function refreshAdminDashboard(){
     wdList.innerHTML = ""
     pendingWithdraws.forEach((w,i)=>{
         let li = document.createElement("li")
-        li.innerHTML = `Amount: ${w.amount} | Account: ${w.account} 
-        <button onclick="approveWithdraw(${i})">Approve</button>`
+        li.innerHTML=`Amount: ${w.amount} | Account: ${w.account} <button class="approve" onclick="approveWithdraw(${i})">Approve</button>`
         wdList.appendChild(li)
     })
 }
@@ -150,7 +133,6 @@ function verifyDeposit(index){
     balance += deposit.amount
     updateBalance()
     pendingDeposits.splice(index,1)
-    alert("Deposit verified! New balance: "+balance)
     refreshAdminDashboard()
 }
 
@@ -159,13 +141,22 @@ function approveWithdraw(index){
     balance -= wd.amount
     updateBalance()
     pendingWithdraws.splice(index,1)
-    alert("Withdraw processed! New balance: "+balance)
     refreshAdminDashboard()
 }
 
-// --------- Button Events ---------
+// ---------- Admin Login ----------
+document.getElementById("adminLoginBtn").onclick = function(){
+    let pass = document.getElementById("adminPass").value
+    if(pass==="1234"){ // simple password
+        document.getElementById("adminPanel").style.display="block"
+        alert("Admin logged in!")
+    } else { alert("Wrong password!") }
+}
+
+// ---------- Buttons ----------
 document.getElementById("startBtn").onclick = startGame
 document.getElementById("cashoutBtn").onclick = cashout
 
 refreshAdminDashboard()
 updateBalance()
+})

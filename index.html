@@ -2,68 +2,62 @@
 <html>
 <head>
 <title>Crash Game</title>
-
 <style>
-
 body{
-background:#111;
-color:white;
-font-family:Arial;
-text-align:center;
+  background:#111;
+  color:white;
+  font-family:Arial;
+  text-align:center;
 }
-
 h1{color:#00ffcc;}
-
 #multiplier{
-font-size:60px;
-margin:20px;
+  font-size:60px;
+  margin:20px;
 }
-
 #balance{
-font-size:22px;
-color:#00ffcc;
-margin:10px;
+  font-size:22px;
+  color:#00ffcc;
+  margin:10px;
 }
-
 input{
-padding:10px;
-font-size:18px;
-margin:10px;
+  padding:10px;
+  font-size:18px;
+  margin:10px;
 }
-
 button{
-padding:10px 20px;
-font-size:18px;
-margin:10px;
-cursor:pointer;
+  padding:10px 20px;
+  font-size:18px;
+  margin:10px;
+  cursor:pointer;
 }
-
 canvas{
-background:black;
-border:1px solid #444;
-margin-top:20px;
+  background:black;
+  border:1px solid #444;
+  margin-top:20px;
 }
-
+#plane{
+  position:absolute;
+  left:50px;
+  top:220px;
+  width:60px;
+}
 </style>
 </head>
-
 <body>
 
 <h1>Crash Game</h1>
 
 <div id="balance">Balance: 1000</div>
-
 <div id="multiplier">1.00x</div>
 
 <canvas id="graph" width="400" height="200"></canvas>
-<img id="plane" src="https://i.imgur.com/7Qp9Z5V.png" 
-style="position:absolute; left:50px; top:220px; width:60px;">
-<br>
 
+<!-- Plane image -->
+<img id="plane" src="https://i.imgur.com/7Qp9Z5V.png">
+
+<br>
 <input id="bet" type="number" placeholder="Bet Amount">
-
 <br>
-
 <button id="startBtn">Start Bet</button>
 <button id="cashoutBtn">Cashout</button>
 
@@ -72,9 +66,10 @@ style="position:absolute; left:50px; top:220px; width:60px;">
 <h3>History</h3>
 <ul id="historyList"></ul>
 
-<script src="game.js"></script>
-
-</body>
-</html>
+<!-- Sound -->
 <audio id="cashSound" src="https://freesound.org/data/previews/256/256113_3263906-lq.mp3"></audio>
 <audio id="crashSound" src="https://freesound.org/data/previews/331/331912_3248244-lq.mp3"></audio>
+
+<script src="game.js"></script>
+</body>
+</html>

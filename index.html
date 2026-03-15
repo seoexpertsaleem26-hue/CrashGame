@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>Crash Game</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Crash Game</h1>
+
+<div id="balance">Balance: 1000</div>
+
+<div id="multiplier">1.00x</div>
+
+<input type="number" id="bet" placeholder="Enter Bet">
+
+<br>
+
+<button onclick="startGame()">Start Bet</button>
+<button onclick="cashout()">Cashout</button>
+
+<div id="result"></div>
+
+<div id="history">
+<h3>Game History</h3>
+<ul id="historyList"></ul>
+</div>
+
+<script src="game.js"></script>
+
+</body>
+</html>

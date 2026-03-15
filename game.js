@@ -207,3 +207,5 @@ window.approveWithdraw=function(index){
     pendingWithdraws.splice(index,1)
     refreshAdminPanel()
 }
+
+});

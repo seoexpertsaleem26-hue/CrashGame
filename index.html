@@ -1,59 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Crash Game</title>
+<title>Crash Game with Deposit/Withdraw</title>
 <style>
-body{
-  background:#111;
-  color:white;
-  font-family:Arial;
-  text-align:center;
-}
+body{background:#111; color:white; font-family:Arial; text-align:center;}
 h1{color:#00ffcc;}
-#multiplier{
-  font-size:60px;
-  margin:20px;
-}
-#balance{
-  font-size:22px;
-  color:#00ffcc;
-  margin:10px;
-}
-input{
-  padding:10px;
-  font-size:18px;
-  margin:10px;
-}
-button{
-  padding:10px 20px;
-  font-size:18px;
-  margin:10px;
-  cursor:pointer;
-}
-canvas{
-  background:black;
-  border:1px solid #444;
-  margin-top:20px;
-}
-#plane{
-  position:absolute;
-  left:50px;
-  top:220px;
-  width:60px;
-  z-index:10;
-}
+#multiplier{font-size:60px;margin:20px;}
+#balance{font-size:22px;color:#00ffcc;margin:10px;}
+input{padding:10px;font-size:18px;margin:10px;}
+button{padding:10px 20px;font-size:18px;margin:10px;cursor:pointer;}
+canvas{background:black;border:1px solid #444;margin-top:20px;}
+#plane{position:absolute; left:50px; top:220px; width:60px; z-index:10;}
 </style>
 </head>
 <body>
 
 <h1>Crash Game</h1>
-
 <div id="balance">Balance: 1000</div>
 <div id="multiplier">1.00x</div>
 
 <canvas id="graph" width="400" height="200"></canvas>
-
-<!-- Plane image -->
 <img id="plane" src="https://i.imgur.com/7Qp9Z5V.png">
 
 <br>
@@ -64,10 +30,22 @@ canvas{
 
 <div id="result"></div>
 
+<h3>Deposit</h3>
+<p>Send payment to:</p>
+<p>JazzCash: 03064411625</p>
+<p>EasyPaisa: 03064411625</p>
+<input id="depositAmount" type="number" placeholder="Deposit Amount">
+<input id="depositTxn" type="text" placeholder="Transaction ID">
+<button onclick="depositRequest()">Submit Deposit</button>
+
+<h3>Withdraw</h3>
+<input id="withdrawAmount" type="number" placeholder="Withdraw Amount">
+<input id="withdrawAccount" type="text" placeholder="Your JazzCash/EasyPaisa Number">
+<button onclick="withdrawRequest()">Submit Withdraw</button>
+
 <h3>History</h3>
 <ul id="historyList"></ul>
 
-<!-- Sound -->
 <audio id="cashSound" src="https://freesound.org/data/previews/256/256113_3263906-lq.mp3"></audio>
 <audio id="crashSound" src="https://freesound.org/data/previews/331/331912_3248244-lq.mp3"></audio>
 

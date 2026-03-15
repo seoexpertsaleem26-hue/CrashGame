@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Crash Game with Deposit/Withdraw</title>
+<title>Crash Game with Admin</title>
 <style>
 body{background:#111; color:white; font-family:Arial; text-align:center;}
-h1{color:#00ffcc;}
-#multiplier{font-size:60px;margin:20px;}
-#balance{font-size:22px;color:#00ffcc;margin:10px;}
-input{padding:10px;font-size:18px;margin:10px;}
-button{padding:10px 20px;font-size:18px;margin:10px;cursor:pointer;}
+h1,h2{color:#00ffcc;}
+#multiplier{font-size:50px;margin:20px;}
+#balance{font-size:20px;color:#00ffcc;margin:10px;}
+input, button{padding:10px;font-size:16px;margin:5px;}
+button{cursor:pointer;}
 canvas{background:black;border:1px solid #444;margin-top:20px;}
 #plane{position:absolute; left:50px; top:220px; width:60px; z-index:10;}
+#adminPanel{display:none; border:2px solid #00ffcc; padding:10px; margin-top:20px;}
+button.verify, button.approve{background:#0f0; color:#000; border:none; padding:5px 10px; margin-left:5px; cursor:pointer;}
+button.verify:hover, button.approve:hover{background:#0c0;}
 </style>
 </head>
 <body>
@@ -43,17 +46,21 @@ canvas{background:black;border:1px solid #444;margin-top:20px;}
 <input id="withdrawAccount" type="text" placeholder="Your JazzCash/EasyPaisa Number">
 <button onclick="withdrawRequest()">Submit Withdraw</button>
 
-<h3>Admin Dashboard</h3>
-<div style="border:1px solid #444;padding:10px;margin:10px;">
-  <h4>Pending Deposits</h4>
-  <ul id="adminDeposits"></ul>
-
-  <h4>Pending Withdraws</h4>
-  <ul id="adminWithdraws"></ul>
-</div>
-
 <h3>History</h3>
 <ul id="historyList"></ul>
+
+<hr>
+<h2>Admin Login</h2>
+<input type="password" id="adminPass" placeholder="Enter Admin Password">
+<button id="adminLoginBtn">Login</button>
+
+<div id="adminPanel">
+<h2>Admin Dashboard</h2>
+<h4>Pending Deposits</h4>
+<ul id="adminDeposits"></ul>
+<h4>Pending Withdraws</h4>
+<ul id="adminWithdraws"></ul>
+</div>
 
 <audio id="cashSound" src="https://freesound.org/data/previews/256/256113_3263906-lq.mp3"></audio>
 <audio id="crashSound" src="https://freesound.org/data/previews/331/331912_3248244-lq.mp3"></audio>

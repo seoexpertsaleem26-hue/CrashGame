@@ -89,7 +89,15 @@ document.getElementById("startBtn").onclick = function(){
     running=true; x=0; planeX=50; planeY=220
     plane.style.left=planeX+"px"; plane.style.top=planeY+"px"
 
-    crashPoint = Math.random()*5+1
+    function generateCrashPoint(){
+    // 80% chance for low crash (lose for user)
+    if(Math.random() < 0.7){
+        return Math.random()*2 + 1; // 1x to 3x
+    } else {
+        return Math.random()*5 + 3; // 3x to 6x
+    }
+}
+crashPoint = generateCrashPoint();
     resultEl.innerText=""
 
     timer=setInterval(()=>{
@@ -160,7 +168,7 @@ document.getElementById("withdrawBtn").onclick=function(){
 // ----- Admin Login -----
 document.getElementById("adminLoginBtn").onclick=function(){
     let pass=document.getElementById("adminPass").value
-    if(pass==="1234"){
+    if(pass==="Sa4411625"){
         document.getElementById("adminPanel").style.display="block"
         alert("Admin logged in!")
         refreshAdminPanel()

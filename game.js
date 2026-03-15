@@ -55,6 +55,7 @@ document.getElementById("result").innerHTML = ""
 
 timer = setInterval(()=>{
 multiplier += 0.02
+  drawGraph()
 document.getElementById("multiplier").innerHTML = multiplier.toFixed(2)+"x"
 
 if(multiplier >= crashPoint){
@@ -85,3 +86,25 @@ document.getElementById("historyList").prepend(li)
 }
 
 updateBalance()
+let canvas = document.getElementById("graph")
+let ctx = canvas.getContext("2d")
+
+let x = 0
+
+function drawGraph(){
+
+ctx.clearRect(0,0,400,200)
+
+ctx.beginPath()
+
+ctx.moveTo(0,200)
+
+ctx.lineTo(x,200-(multiplier*20))
+
+ctx.strokeStyle="lime"
+
+ctx.stroke()
+
+x += 5
+
+}

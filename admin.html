@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Admin Panel</title>
+
+<style>
+
+body{
+font-family:Arial;
+text-align:center;
+background:#111;
+color:white;
+}
+
+input{
+padding:10px;
+margin:10px;
+}
+
+button{
+padding:10px 20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Admin Panel</h1>
+
+<h3>Update Player Balance</h3>
+
+<input id="player" placeholder="Player Name">
+
+<input id="amount" placeholder="Balance">
+
+<button onclick="updateBalance()">Update</button>
+
+<script>
+
+function updateBalance(){
+
+let player=document.getElementById("player").value
+let amount=document.getElementById("amount").value
+
+localStorage.setItem("balance",amount)
+
+alert("Balance Updated")
+
+}
+
+</script>
+
+</body>
+</html>

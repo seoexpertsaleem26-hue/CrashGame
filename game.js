@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", function(){
 // ----- Global -----
 let users = JSON.parse(localStorage.getItem("users")) || []
 let currentUser = null
+let pendingDeposits = []
+let pendingWithdraws = []
 
 // ----- DOM Elements -----
 let signupSection = document.getElementById("signupSection")
@@ -25,9 +27,6 @@ let cashSound = document.getElementById("cashSound")
 let crashSound = document.getElementById("crashSound")
 
 let running=false, multiplier=1, crashPoint=0, timer=null, betAmount=0
-
-let pendingDeposits = []
-let pendingWithdraws = []
 
 // ----- Signup -----
 document.getElementById("signupBtn").onclick = function(){
@@ -129,7 +128,7 @@ function addHistory(text){
 
 function saveUsers(){ localStorage.setItem("users", JSON.stringify(users)) }
 
-// ----- Deposit -----
+// ----- Deposit / Withdraw -----
 document.getElementById("depositBtn").onclick=function(){
     let amt=parseFloat(document.getElementById("depositAmount").value)
     let txn=document.getElementById("depositTxn").value.trim()
@@ -137,10 +136,8 @@ document.getElementById("depositBtn").onclick=function(){
     pendingDeposits.push({user:currentUser.username,amount:amt,txnId:txn})
     alert("Deposit request sent to admin! Within 24 hours it will be verified")
     document.getElementById("depositAmount").value=""; document.getElementById("depositTxn").value=""
-    saveUsers()
 }
 
-// ----- Withdraw -----
 document.getElementById("withdrawBtn").onclick=function(){
     let amt=parseFloat(document.getElementById("withdrawAmount").value)
     let acc=document.getElementById("withdrawAccount").value.trim()
@@ -149,7 +146,6 @@ document.getElementById("withdrawBtn").onclick=function(){
     pendingWithdraws.push({user:currentUser.username,amount:amt,account:acc})
     alert("Withdraw request sent to admin! Within 24 hours it will be approved")
     document.getElementById("withdrawAmount").value=""; document.getElementById("withdrawAccount").value=""
-    saveUsers()
 }
 
 // ----- Admin Login -----
@@ -164,7 +160,6 @@ document.getElementById("adminLoginBtn").onclick=function(){
 
 // ----- Admin Functions -----
 function refreshAdminPanel(){
-    // Users
     let usersEl=document.getElementById("adminUsers")
     usersEl.innerHTML=""
     users.forEach(u=>{
@@ -172,7 +167,6 @@ function refreshAdminPanel(){
         li.innerText=`${u.username} - Balance: ${u.balance.toFixed(2)}`
         usersEl.appendChild(li)
     })
-    // Pending Deposits
     let depEl=document.getElementById("adminDeposits")
     depEl.innerHTML=""
     pendingDeposits.forEach((d,i)=>{
@@ -180,7 +174,6 @@ function refreshAdminPanel(){
         li.innerHTML=`User: ${d.user} | Amount: ${d.amount} | Txn: ${d.txnId} <button class="verify" onclick="verifyDeposit(${i})">Verify</button>`
         depEl.appendChild(li)
     })
-    // Pending Withdraws
     let wdEl=document.getElementById("adminWithdraws")
     wdEl.innerHTML=""
     pendingWithdraws.forEach((w,i)=>{
@@ -190,7 +183,7 @@ function refreshAdminPanel(){
     })
 }
 
-// ----- Admin Verify/Approve -----
+// ----- Admin Verify / Approve -----
 window.verifyDeposit=function(index){
     let d=pendingDeposits[index]
     let user=users.find(u=>u.username===d.user)
@@ -206,4 +199,4 @@ window.approveWithdraw=function(index){
     refreshAdminPanel()
 }
 
-}) // DOMContentLoaded
+})

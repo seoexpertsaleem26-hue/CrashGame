@@ -1,12 +1,10 @@
 document.addEventListener("DOMContentLoaded", function(){
 
-// ----- Global -----
 let users = JSON.parse(localStorage.getItem("users")) || []
 let currentUser = null
 let pendingDeposits = []
 let pendingWithdraws = []
 
-// ----- DOM Elements -----
 let signupSection = document.getElementById("signupSection")
 let loginSection = document.getElementById("loginSection")
 let walletSection = document.getElementById("walletSection")
@@ -27,6 +25,16 @@ let cashSound = document.getElementById("cashSound")
 let crashSound = document.getElementById("crashSound")
 
 let running=false, multiplier=1, crashPoint=0, timer=null, betAmount=0
+
+// ----- Section Navigation -----
+document.getElementById("gotoLoginBtn").onclick = function(){
+    signupSection.style.display="none"
+    loginSection.style.display="block"
+}
+document.getElementById("gotoSignupBtn").onclick = function(){
+    loginSection.style.display="none"
+    signupSection.style.display="block"
+}
 
 // ----- Signup -----
 document.getElementById("signupBtn").onclick = function(){
@@ -56,7 +64,7 @@ document.getElementById("loginBtn").onclick = function(){
     updateWalletUI()
 }
 
-// ----- Update Wallet UI -----
+// ----- Wallet UI -----
 function updateWalletUI(){
     balanceEl.innerText = "Balance: "+currentUser.balance.toFixed(2)
     historyList.innerHTML=""
@@ -67,7 +75,7 @@ function updateWalletUI(){
     })
 }
 
-// ----- Game Functions -----
+// ----- Game -----
 document.getElementById("startBtn").onclick = function(){
     if(running) return
     betAmount = parseFloat(document.getElementById("bet").value)
@@ -128,7 +136,7 @@ function addHistory(text){
 
 function saveUsers(){ localStorage.setItem("users", JSON.stringify(users)) }
 
-// ----- Deposit / Withdraw -----
+// ----- Deposit -----
 document.getElementById("depositBtn").onclick=function(){
     let amt=parseFloat(document.getElementById("depositAmount").value)
     let txn=document.getElementById("depositTxn").value.trim()
@@ -138,6 +146,7 @@ document.getElementById("depositBtn").onclick=function(){
     document.getElementById("depositAmount").value=""; document.getElementById("depositTxn").value=""
 }
 
+// ----- Withdraw -----
 document.getElementById("withdrawBtn").onclick=function(){
     let amt=parseFloat(document.getElementById("withdrawAmount").value)
     let acc=document.getElementById("withdrawAccount").value.trim()
@@ -158,7 +167,7 @@ document.getElementById("adminLoginBtn").onclick=function(){
     } else { alert("Wrong password!") }
 }
 
-// ----- Admin Functions -----
+// ----- Admin Panel -----
 function refreshAdminPanel(){
     let usersEl=document.getElementById("adminUsers")
     usersEl.innerHTML=""
@@ -198,5 +207,3 @@ window.approveWithdraw=function(index){
     pendingWithdraws.splice(index,1)
     refreshAdminPanel()
 }
-
-})

@@ -1,86 +1,96 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Crash Game Platform</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crash Game</title>
 <style>
-body{background:#111; color:white; font-family:Arial; text-align:center;}
-h1,h2{color:#00ffcc;}
-#multiplier{font-size:50px;margin:20px;}
-#balance{font-size:20px;color:#00ffcc;margin:10px;}
-input, button{padding:10px;font-size:16px;margin:5px;}
-button{cursor:pointer;}
-canvas{background:black;border:1px solid #444;margin-top:20px;}
-#plane{position:absolute; left:50px; top:220px; width:60px; z-index:10;}
-#adminPanel{display:none; border:2px solid #00ffcc; padding:10px; margin-top:20px;}
-button.verify, button.approve{background:#0f0; color:#000; border:none; padding:5px 10px; margin-left:5px; cursor:pointer;}
-button.verify:hover, button.approve:hover{background:#0c0;}
+body{background:#0b0b0b;color:white;font-family:Arial;text-align:center;margin:0;}
+header{background:#111;padding:15px;font-size:22px;font-weight:bold;color:#00ffc3;}
+.container{padding:15px;}
+input{padding:10px;margin:5px;width:90%;max-width:300px;border:none;border-radius:5px;}
+button{padding:10px 20px;margin:5px;border:none;border-radius:5px;background:#00ffc3;font-weight:bold;cursor:pointer;}
+button:hover{background:#00d1a0;}
+#balance{font-size:20px;margin:10px;color:#00ffc3;}
+#multiplier{font-size:40px;margin:10px;}
+canvas{background:black;border-radius:10px;margin-top:10px;width:100%;}
+#plane{position:absolute;width:50px;top:240px;left:30px;}
+.card{background:#111;padding:15px;border-radius:10px;margin:10px auto;max-width:350px;}
 #walletSection{display:none;}
-#loginSection, #signupSection{margin-top:50px;}
+#loginSection{display:none;}
 </style>
 </head>
 <body>
 
-<h1>Crash Game Platform</h1>
+<header>✈ Crash Game</header>
 
-<!-- Signup -->
-<div id="signupSection">
+<div class="container">
+
+<!-- SIGNUP -->
+<div id="signupSection" class="card">
 <h2>Signup</h2>
-<input type="text" id="signupFullName" placeholder="Full Name"><br>
-<input type="text" id="signupUsername" placeholder="Username"><br>
-<input type="email" id="signupEmail" placeholder="Email"><br>
-<input type="password" id="signupPassword" placeholder="Password"><br>
-<button id="signupBtn">Signup</button>
-<p>Already signed up? <button id="gotoLoginBtn">Login Here</button></p>
+<input id="signupFullName" placeholder="Full Name">
+<input id="signupUsername" placeholder="Username">
+<input id="signupEmail" placeholder="Email">
+<input id="signupPassword" type="password" placeholder="Password">
+<br>
+<button id="signupBtn">Create Account</button>
+<p>Already have account? <button id="gotoLoginBtn">Login</button></p>
 </div>
 
-<!-- Login -->
-<div id="loginSection" style="display:none;">
+<!-- LOGIN -->
+<div id="loginSection" class="card">
 <h2>Login</h2>
-<input type="text" id="loginUsername" placeholder="Username"><br>
-<input type="password" id="loginPassword" placeholder="Password"><br>
+<input id="loginUsername" placeholder="Username">
+<input id="loginPassword" type="password" placeholder="Password">
+<br>
 <button id="loginBtn">Login</button>
-<p>New user? <button id="gotoSignupBtn">Signup Here</button></p>
+<p>New user? <button id="gotoSignupBtn">Signup</button></p>
 </div>
 
-<!-- Wallet & Game -->
+<!-- WALLET + GAME -->
 <div id="walletSection">
 <div id="balance">Balance: 0</div>
 <div id="multiplier">1.00x</div>
-<canvas id="graph" width="400" height="200"></canvas>
+<canvas id="graph" width="350" height="200"></canvas>
 <img id="plane" src="https://i.imgur.com/7Qp9Z5V.png">
 
-<br>
+<div class="card">
 <input id="bet" type="number" placeholder="Bet Amount">
 <br>
 <button id="startBtn">Start Bet</button>
 <button id="cashoutBtn">Cashout</button>
-
 <div id="result"></div>
+</div>
 
+<div class="card">
 <h3>Deposit</h3>
-<p>Send payment to JazzCash or EasyPaisa:</p>
-<p><b>03064411625</b></p>
-<input id="depositAmount" type="number" placeholder="Deposit Amount">
-<input id="depositTxn" type="text" placeholder="Transaction ID">
+<p>Send payment to</p>
+<b>JazzCash / EasyPaisa</b>
+<p style="font-size:18px;">03064411625</p>
+<input id="depositAmount" type="number" placeholder="Amount">
+<input id="depositTxn" placeholder="Transaction ID">
 <button id="depositBtn">Submit Deposit</button>
+</div>
 
+<div class="card">
 <h3>Withdraw</h3>
-<input id="withdrawAmount" type="number" placeholder="Withdraw Amount">
-<input id="withdrawAccount" type="text" placeholder="Your JazzCash/EasyPaisa Number">
-<button id="withdrawBtn">Submit Withdraw</button>
+<input id="withdrawAmount" type="number" placeholder="Amount">
+<input id="withdrawAccount" placeholder="JazzCash / Easypaisa Number">
+<button id="withdrawBtn">Withdraw</button>
+</div>
 
-<h3>History</h3>
+<div class="card">
+<h3>Game History</h3>
 <ul id="historyList"></ul>
+</div>
 </div>
 
 <hr>
-<!-- Admin Login -->
 <h2>Admin Login</h2>
 <input type="password" id="adminPass" placeholder="Enter Admin Password">
 <button id="adminLoginBtn">Login as Admin</button>
 
-<!-- Admin Panel -->
-<div id="adminPanel">
+<div id="adminPanel" class="card" style="display:none;">
 <h2>Admin Dashboard</h2>
 <h4>All Users</h4>
 <ul id="adminUsers"></ul>
